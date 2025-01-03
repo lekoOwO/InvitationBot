@@ -9,16 +9,37 @@ tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
 sqlx = { version = "0.8.2", features = ["runtime-tokio", "sqlite", "time", "chrono"] }
-serenity = { version = "0.12.4", features = ["client", "gateway", "rustls_backend", "model", "http"] }
 uuid = { version = "1.0", features = ["v4"] }
 axum = "0.8.1"
 tower-http = { version = "0.6.2", features = ["cors"] }
 chrono = { version = "0.4", features = ["serde"] }
 once_cell = "1.20.2"
 rust-embed = "8.0"
+openssl = { version = "0.10", optional = true, features = ["vendored"] }
 
 [dev-dependencies]
 tempfile = "3.9"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 uuid = { version = "1.0", features = ["v4"] }
 tower = { version = "0.5.2", features = ["util"] }
+
+[dependencies.serenity]
+default-features = false
+features = [
+    "builder",
+    "cache",
+    "chrono",
+    "client",
+    "framework",
+    "gateway",
+    "http",
+    "model",
+    "standard_framework",
+    "utils",
+]
+version = "0.12.4"
+
+[features]
+default = ["serenity/rustls_backend"]
+native-tls = ["serenity/native_tls_backend", "openssl/vendored"]
+
