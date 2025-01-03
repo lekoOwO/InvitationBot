@@ -7,6 +7,7 @@ mod slash_commands;
 mod utils;
 mod http_server;
 mod handlers;
+mod i18n;
 
 use utils::config::Config;
 

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
+use crate::i18n::AVAILABLE_LOCALES;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
@@ -64,6 +65,14 @@ impl Config {
     pub fn load() -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let content = fs::read_to_string("data/config.yaml")?;
         let config: Config = serde_yaml::from_str(&content)?;
+
+        // Validate locales
+        for locale in &config.i18n.available_locales {
+            if !AVAILABLE_LOCALES.contains(&locale.as_str()) {
+                return Err(format!("Unsupported locale: {}", locale).into());
+            }
+        }
+
         Ok(config)
     }
 

@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 use once_cell::sync::Lazy;
 use serde_yaml::Value;
 
@@ -8,10 +7,9 @@ type Translations = HashMap<String, Value>;
 static TRANSLATIONS: Lazy<HashMap<String, Translations>> = Lazy::new(|| {
     let mut translations = HashMap::new();
     
-    // Load all language files
-    for locale in &["en", "zh-TW"] {
-        let path = format!("src/i18n/{}.yaml", locale);
-        if let Ok(content) = fs::read_to_string(&path) {
+    // Load all language files from embedded assets
+    for locale in crate::i18n::AVAILABLE_LOCALES.iter() {
+        if let Some(content) = crate::i18n::get_yaml(locale) {
             if let Ok(trans) = serde_yaml::from_str(&content) {
                 translations.insert(locale.to_string(), trans);
             }
