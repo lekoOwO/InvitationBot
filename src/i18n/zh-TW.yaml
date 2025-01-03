@@ -1,0 +1,95 @@
+commands:
+  ping:
+    name: "ping"
+    description: "檢查機器人是否正常運作"
+    response:
+      title: "🏓 Pong！"
+      description: "機器人運作正常"
+
+  invites:
+    name: "invites"
+    description: "建立邀請連結"
+    errors:
+      server_not_allowed:
+        title: "❌ 伺服器未授權"
+        description: "此伺服器未被設定使用此機器人"
+        footer: "請聯絡機器人管理員申請使用"
+      missing_permissions:
+        title: "❌ 權限不足"
+        description: "您沒有使用此指令的權限"
+        footer: "請聯絡伺服器管理員申請權限"
+      limit_reached:
+        title: "❌ 已達邀請上限"
+        description: "您在過去 {days} 天內只能邀請 {count} 人"
+        status: "目前狀態"
+        used: "已使用 {count} 次"
+        remaining: "剩餘 {count} 次"
+        footer: "請等待限制重置後再試"
+    success:
+      title: "🎫 已建立新邀請"
+      description: "這是您的 **{guild}** 邀請連結"
+      limits: "使用限制"
+      invites_per_days: "{days} 天內可邀請 {count} 人"
+      used_remaining: "已使用 {used} 次，剩餘 {remaining} 次"
+      footer: "🔒 這是您的專屬邀請連結"
+
+  inviter:
+    name: "inviter"
+    description: "查詢用戶是被誰邀請的"
+    param_user: "要查詢的用戶"
+    errors:
+      no_record:
+        title: "❌ 找不到記錄"
+        description: "找不到 {user} 的邀請記錄"
+        footer: "此用戶可能是透過其他方式加入的"
+      invalid_user:
+        title: "❌ 無效的用戶 ID"
+        description: "無法取得邀請者資訊"
+        footer: "這可能是資料庫錯誤"
+    success:
+      title: "👥 邀請資訊"
+      user: "用戶"
+      invited_by: "邀請者"
+      date: "日期"
+      invite_code: "邀請代碼"
+      footer: "🔍 使用 /invites-leaderboard 查看邀請排行榜"
+
+  invites_leaderboard:
+    name: "invites-leaderboard"
+    description: "查看邀請排行榜"
+    param_days: "要查看的天數（預設：30）"
+    errors:
+      no_invites:
+        title: "📊 邀請排行榜"
+        description: "在過去 {days} 天內沒有邀請記錄"
+        footer: "請稍後再試"
+    success:
+      title: "邀請排行榜 - {guild}"
+      footer: "🔥 使用 /invites 取得你的邀請連結"
+
+errors:
+  command:
+    title: "❌ 指令錯誤"
+    description: "執行指令時發生錯誤"
+    footer: "請稍後再試"
+  db:
+    mark_invite_used: "無法標記邀請為已使用：{error}"
+  server:
+    invalid_address: "無法解析伺服器位址"
+    bind_failed: "無法綁定伺服器"
+    start_failed: "無法啟動 HTTP 伺服器"
+    running: "HTTP 伺服器運行於 {addr}"
+  unknown: "發生未知錯誤：{error}"
+  setup: "無法啟動機器人：{error}"
+
+http:
+  errors:
+    internal: "內部伺服器錯誤：{error}"
+    invalid_invite: "此邀請連結已過期或無效"
+    server_not_found: "找不到伺服器設定"
+    invalid_channel: "無效的頻道設定"
+    create_failed: "無法建立邀請：{error}"
+    update_failed: "無法更新邀請：{error}"
+
+bot:
+  logged_in: "已登入為 {name}"

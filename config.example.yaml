@@ -1,0 +1,43 @@
+bot:
+  token: "YOUR_BOT_TOKEN"
+  default_invite_max_age: 300  # Default 5 minutes
+
+database:
+  path: "data/bot.db"
+
+server:
+  external_url: "https://your-domain.com:8080"  # External access URL
+  bind: "127.0.0.1:8080"                        # Internal binding address
+
+i18n:
+  default_locale: "en"
+  available_locales:
+    - "en"
+    - "zh-TW"
+
+guilds:
+  allowed:
+    - id: "123456789012345678"
+      name: "Test Server"
+      invite_channel: "111222333444555"
+      max_age: 600  # Optional, 10 minutes for this guild
+      locale: "zh-TW"  # Optional response locale
+      allowed_roles:
+        - id: "111222333444555"
+          name: "Admin"
+          invite_limit:
+            count: 10
+            days: 30
+        - id: "666777888999000"
+          name: "Invite Manager"
+          invite_limit:
+            count: 2
+            days: 30
+    - id: "987654321098765432"
+      name: "Production Server"
+      allowed_roles:
+        - id: "000999888777666"
+          name: "Group Manager"
+          invite_limit:
+            count: 5
+            days: 30

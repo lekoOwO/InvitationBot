@@ -1,0 +1,97 @@
+commands:
+  ping:
+    name: "ping"
+    description: "Check if the bot is alive"
+    response:
+      title: "🏓 Pong!"
+      description: "Bot is up and running"
+
+  invites:
+    name: "invites"
+    description: "Create an invite link"
+    errors:
+      server_not_allowed:
+        title: "❌ Server Not Allowed"
+        description: "This server is not configured to use this bot"
+        footer: "Contact the bot administrator for access"
+      missing_permissions:
+        title: "❌ Missing Permissions"
+        description: "You don't have the required role to use this command"
+        footer: "Contact a server administrator for access"
+      limit_reached:
+        title: "❌ Invite Limit Reached"
+        description: "You can only invite {count} people in the past {days} days"
+        status: "Current Status"
+        used: "{count} used"
+        remaining: "{count} remaining"
+        footer: "Try again when your limit resets"
+    success:
+      title: "🎫 New Invite Created"
+      description: "Here's your invite link for **{guild}**"
+      limits: "Limits"
+      invites_per_days: "{count} invites per {days} days"
+      used_remaining: "{used} used, {remaining} remaining"
+      footer: "🔒 This invite link is unique to you"
+
+  inviter:
+    name: "inviter"
+    description: "View who invited a user"
+    param_user: "User to check"
+    errors:
+      no_record:
+        title: "❌ No Invite Record"
+        description: "No invite record found for {user}"
+        footer: "This user might have joined through other means"
+      invalid_user:
+        title: "❌ Invalid User ID"
+        description: "Failed to fetch inviter information"
+        footer: "This is likely a database error"
+    success:
+      title: "👥 Invite Information"
+      user: "User"
+      invited_by: "Invited by"
+      date: "Date"
+      invite_code: "Invite Code"
+      footer: "🔍 Use /invites-leaderboard to see top inviters"
+
+  invites_leaderboard:
+    name: "invites-leaderboard"
+    description: "View the invite leaderboard"
+    param_days: "Days to look back (default: 30)"
+    errors:
+      no_invites:
+        title: "📊 Invite Leaderboard"
+        description: "No invites found in the past {days} days"
+        footer: "Try checking again later"
+    success:
+      title: "Invite Leaderboard - {guild}"
+      footer: "🔥 Use /invites to get your invite link"
+
+server:
+  running: "HTTP server running on {addr}"
+
+errors:
+  command:
+    title: "❌ Command Error"
+    description: "An error occurred while executing the command"
+    footer: "Please try again later"
+  db:
+    mark_invite_used: "Failed to mark invite as used: {error}"
+  server:
+    invalid_address: "Failed to parse server address"
+    bind_failed: "Failed to bind server"
+    start_failed: "Failed to start HTTP server"
+  unknown: "Unknown error occurred: {error}"
+  setup: "Failed to start bot: {error}"
+
+http:
+  errors:
+    internal: "Internal server error: {error}"
+    invalid_invite: "This invite link has expired or is invalid"
+    server_not_found: "Server configuration not found"
+    invalid_channel: "Invalid channel configuration"
+    create_failed: "Failed to create invite: {error}"
+    update_failed: "Failed to update invite: {error}"
+
+bot:
+  logged_in: "Logged in as {name}" 

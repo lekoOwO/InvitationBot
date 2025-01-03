@@ -1,0 +1,20 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT COUNT(*) as count \n         FROM invites \n         WHERE creator_id = ? \n         AND created_at > datetime('now', ?) \n         AND guild_id = ?\n         AND used_at IS NOT NULL",
+  "describe": {
+    "columns": [
+      {
+        "name": "count",
+        "ordinal": 0,
+        "type_info": "Integer"
+      }
+    ],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "c41d75131ce616f19ccc0ac7e3d26433d844b7242f3f5d635e770be755685478"
+}

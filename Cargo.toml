@@ -1,0 +1,17 @@
+[package]
+name = "InvitationBot"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+poise = "0.6.1"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
+sqlx = { version = "0.8.2", features = ["runtime-tokio", "sqlite", "time", "chrono"] }
+serenity = { version = "0.12.4", features = ["client", "gateway", "rustls_backend", "model", "http"] }
+uuid = { version = "1.0", features = ["v4"] }
+axum = "0.8.1"
+tower-http = { version = "0.6.2", features = ["cors"] }
+chrono = { version = "0.4", features = ["serde"] }
+once_cell = "1.20.2"

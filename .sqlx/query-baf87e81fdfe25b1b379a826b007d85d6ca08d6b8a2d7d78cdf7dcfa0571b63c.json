@@ -1,0 +1,20 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT guild_id FROM invites WHERE id = ? AND used_at IS NULL",
+  "describe": {
+    "columns": [
+      {
+        "name": "guild_id",
+        "ordinal": 0,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "baf87e81fdfe25b1b379a826b007d85d6ca08d6b8a2d7d78cdf7dcfa0571b63c"
+}
