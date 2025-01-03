@@ -1,5 +1,5 @@
-use poise::serenity_prelude::{self as serenity};
 use crate::Data;
+use poise::serenity_prelude::{self as serenity};
 
 pub async fn handle_guild_member_addition(
     ctx: &serenity::Context,
@@ -11,7 +11,9 @@ pub async fn handle_guild_member_addition(
     if let Ok(invites) = guild_id.invites(&ctx.http).await {
         for invite in invites {
             // Check if this is our invite code
-            if let Ok(Some(invite_id)) = crate::utils::db::find_invite_by_code(&data.db, &invite.code).await {
+            if let Ok(Some(invite_id)) =
+                crate::utils::db::find_invite_by_code(&data.db, &invite.code).await
+            {
                 // Check if this invite is set to 2 uses, has been used once, and was created by us
                 // If these conditions are met, we can assume this invite was used by the new member
                 if invite.max_uses == 2 && invite.uses == 1 {
@@ -20,8 +22,9 @@ pub async fn handle_guild_member_addition(
                         &data.db,
                         &invite_id,
                         &new_member.user.id.to_string(),
-                    ).await;
-                    
+                    )
+                    .await;
+
                     // Delete the invite link
                     let _ = invite.delete(&ctx.http).await;
                     break;
@@ -29,4 +32,4 @@ pub async fn handle_guild_member_addition(
             }
         }
     }
-} 
+}

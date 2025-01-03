@@ -1,4 +1,4 @@
-use crate::{Context, Error, t};
+use crate::{t, Context, Error};
 use poise::serenity_prelude::CreateEmbed;
 use poise::CreateReply;
 
@@ -12,8 +12,8 @@ pub async fn ping(ctx: Context<'_>) -> Result<(), Error> {
         .title(t!(locale, "commands.ping.response.title"))
         .description(t!(locale, "commands.ping.response.description"))
         .color(0x4CACEE);
-    
+
     let reply = CreateReply::default().embed(embed);
     ctx.send(reply).await?;
     Ok(())
-} 
+}

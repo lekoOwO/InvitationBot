@@ -9,7 +9,8 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  DATABASE_URL: sqlite:data/bot.db
+  DATABASE_URL: sqlite:/tmp/bot.db
+  CONFIG_PATH: /tmp/config.yaml
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
@@ -28,12 +29,12 @@ jobs:
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
 
-      - name: Create data directory
-        run: mkdir -p data
+      - name: Copy config
+        run: cp config.example.yaml /tmp/config.yaml
       
       - name: Install sqlx-cli
         run: cargo install sqlx-cli
-        
+
       - name: Create database
         run: |
           sqlx database create
@@ -59,6 +60,17 @@ jobs:
       
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
+
+      - name: Copy config
+        run: cp config.example.yaml /tmp/config.yaml
+
+      - name: Install sqlx-cli
+        run: cargo install sqlx-cli
+        
+      - name: Create database
+        run: |
+          sqlx database create
+          sqlx migrate run
       
       - name: Build
         run: cargo build --release
@@ -66,8 +78,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: invitationbot
-          path: target/release/invitationbot 
+          name: InvitationBot
+          path: target/release/InvitationBot 
 
   release:
     name: Release
@@ -82,20 +94,17 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: invitationbot
+          name: InvitationBot
           path: ./
 
       - name: Make binary executable
-        run: chmod +x invitationbot
+        run: chmod +x InvitationBot
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            invitationbot
-            LICENSE
-            README.md
-            config.example.yaml
+            InvitationBot
           generate_release_notes: true
 
   docker:

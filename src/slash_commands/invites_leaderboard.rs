@@ -1,4 +1,4 @@
-use crate::{Context, Error, t};
+use crate::{t, Context, Error};
 use poise::serenity_prelude::{CreateEmbed, CreateEmbedFooter};
 use poise::CreateReply;
 use std::collections::HashMap;
@@ -14,25 +14,31 @@ pub async fn invites_leaderboard(
     let locale = ctx.data().config.get_guild_locale(&guild_id.to_string());
     let days = days.unwrap_or(30);
 
-    let entries = crate::utils::db::get_invite_leaderboard(
-        &ctx.data().db,
-        &guild_id.to_string(),
-        days
-    ).await?;
+    let entries =
+        crate::utils::db::get_invite_leaderboard(&ctx.data().db, &guild_id.to_string(), days)
+            .await?;
 
     if entries.is_empty() {
         let mut params = HashMap::new();
         params.insert("days", days.to_string());
 
         let embed = CreateEmbed::default()
-            .title(t!(locale, "commands.invites_leaderboard.errors.no_invites.title"))
-            .description(t!(locale, "commands.invites_leaderboard.errors.no_invites.description", params))
+            .title(t!(
+                locale,
+                "commands.invites_leaderboard.errors.no_invites.title"
+            ))
+            .description(t!(
+                locale,
+                "commands.invites_leaderboard.errors.no_invites.description",
+                params
+            ))
             .color(0xFF3333)
-            .footer(CreateEmbedFooter::new(t!(locale, "commands.invites_leaderboard.errors.no_invites.footer")));
-        
-        let reply = CreateReply::default()
-            .embed(embed)
-            .ephemeral(true);
+            .footer(CreateEmbedFooter::new(t!(
+                locale,
+                "commands.invites_leaderboard.errors.no_invites.footer"
+            )));
+
+        let reply = CreateReply::default().embed(embed).ephemeral(true);
         ctx.send(reply).await?;
         return Ok(());
     }
@@ -51,14 +57,21 @@ pub async fn invites_leaderboard(
     params.insert("guild", guild.name.clone());
 
     let embed = CreateEmbed::default()
-        .title(t!(locale, "commands.invites_leaderboard.success.title", params))
+        .title(t!(
+            locale,
+            "commands.invites_leaderboard.success.title",
+            params
+        ))
         .description(description)
         .color(0x4CACEE)
         .thumbnail(guild.icon_url().unwrap_or_default())
-        .footer(CreateEmbedFooter::new(t!(locale, "commands.invites_leaderboard.success.footer")));
+        .footer(CreateEmbedFooter::new(t!(
+            locale,
+            "commands.invites_leaderboard.success.footer"
+        )));
 
     let reply = CreateReply::default().embed(embed);
     ctx.send(reply).await?;
 
     Ok(())
-} 
+}

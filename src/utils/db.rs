@@ -1,5 +1,5 @@
-use sqlx::SqlitePool;
 use sqlx::types::time::OffsetDateTime;
+use sqlx::SqlitePool;
 
 pub async fn setup_database(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     sqlx::query!(
@@ -25,7 +25,6 @@ pub async fn create_pool(database_path: &str) -> Result<SqlitePool, sqlx::Error>
     Ok(pool)
 }
 
-// 邀請相關操作
 pub async fn create_invite(
     pool: &SqlitePool,
     invite_id: &str,
@@ -51,7 +50,7 @@ pub async fn get_unused_invite(
 ) -> Result<Option<InviteRecord>, sqlx::Error> {
     sqlx::query_as!(
         InviteRecord,
-        "SELECT guild_id FROM invites WHERE id = ? AND used_at IS NULL",
+        "SELECT guild_id, creator_id, discord_invite_code as code FROM invites WHERE id = ? AND used_at IS NULL",
         invite_id
     )
     .fetch_optional(pool)
@@ -98,8 +97,11 @@ pub async fn count_used_invites(
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct InviteRecord {
     pub guild_id: String,
+    pub creator_id: String,   // Used for invite tracking and permissions
+    pub code: Option<String>, // Discord invite code, if already created
 }
 
 #[derive(Debug, sqlx::FromRow)]
@@ -173,7 +175,10 @@ pub async fn get_invite_leaderboard(
     guild_id: &str,
     days: i32,
 ) -> Result<Vec<InviteLeaderboardEntry>, sqlx::Error> {
+    // Ensure days is non-negative
+    let days = days.max(0);
     let days_str = format!("-{} days", days);
+
     sqlx::query_as!(
         InviteLeaderboardEntry,
         r#"
@@ -185,7 +190,7 @@ pub async fn get_invite_leaderboard(
         AND created_at > datetime('now', ?)
         AND used_at IS NOT NULL
         GROUP BY creator_id
-        ORDER BY invite_count DESC
+        ORDER BY invite_count DESC, creator_id ASC
         LIMIT 5
         "#,
         guild_id,
@@ -193,4 +198,81 @@ pub async fn get_invite_leaderboard(
     )
     .fetch_all(pool)
     .await
-} 
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use sqlx::SqlitePool;
+    use uuid::Uuid;
+
+    async fn setup_test_db() -> SqlitePool {
+        let db_url = format!("sqlite:file:{}?mode=memory", Uuid::new_v4());
+        let pool = create_pool(&db_url).await.unwrap();
+        sqlx::migrate!().run(&pool).await.unwrap();
+        pool
+    }
+
+    #[tokio::test]
+    async fn test_create_and_get_invite() {
+        let pool = setup_test_db().await;
+        let invite_id = Uuid::new_v4().to_string();
+        let guild_id = "123456789";
+        let creator_id = "987654321";
+
+        // Test create invite
+        create_invite(&pool, &invite_id, guild_id, creator_id)
+            .await
+            .unwrap();
+
+        // Test get unused invite
+        let invite = get_unused_invite(&pool, &invite_id).await.unwrap().unwrap();
+        assert_eq!(invite.guild_id, guild_id);
+        assert_eq!(invite.creator_id, creator_id);
+        assert!(invite.code.is_none());
+    }
+
+    #[tokio::test]
+    async fn test_invite_leaderboard() {
+        let pool = setup_test_db().await;
+        let guild_id = "123456789";
+        let creator_id = "987654321";
+        let user_id = "111222333";
+
+        // Create multiple invites
+        for _ in 0..3 {
+            let invite_id = Uuid::new_v4().to_string();
+            create_invite(&pool, &invite_id, guild_id, creator_id)
+                .await
+                .unwrap();
+            record_invite_use(&pool, &invite_id, user_id).await.unwrap();
+        }
+
+        // Test leaderboard
+        let entries = get_invite_leaderboard(&pool, guild_id, 30).await.unwrap();
+        assert_eq!(entries.len(), 1);
+        assert_eq!(entries[0].creator_id, creator_id);
+        assert_eq!(entries[0].invite_count, 3);
+    }
+
+    #[tokio::test]
+    async fn test_mark_invite_used() {
+        let pool = setup_test_db().await;
+        let invite_id = Uuid::new_v4().to_string();
+        let guild_id = "123456789";
+        let creator_id = "987654321";
+        let user_id = "111222333";
+
+        // Create invite
+        create_invite(&pool, &invite_id, guild_id, creator_id)
+            .await
+            .unwrap();
+
+        // Mark as used
+        record_invite_use(&pool, &invite_id, user_id).await.unwrap();
+
+        // Verify invite is marked as used
+        let invite = get_unused_invite(&pool, &invite_id).await.unwrap();
+        assert!(invite.is_none());
+    }
+}

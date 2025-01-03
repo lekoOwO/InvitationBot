@@ -35,6 +35,7 @@ cp config.example.yaml data/config.yaml
 
 # Set up the database
 echo "DATABASE_URL=sqlite:data/bot.db" > .env
+echo "CONFIG_PATH=data/config.yaml" >> .env
 cargo install sqlx-cli
 sqlx database create
 sqlx migrate run
