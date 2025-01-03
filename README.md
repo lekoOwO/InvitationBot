@@ -22,7 +22,7 @@
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/invitationbot.git
+git clone https://github.com/lekoOwO/InvitationBot
 cd invitationbot
 ```
 
