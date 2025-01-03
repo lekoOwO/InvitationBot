@@ -3,7 +3,7 @@ bot:
   default_invite_max_age: 300  # Default 5 minutes
 
 database:
-  path: "data/bot.db"
+  path: "sqlite:data/bot.db"
 
 server:
   external_url: "https://your-domain.com:8080"  # External access URL

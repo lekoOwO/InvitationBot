@@ -66,7 +66,7 @@ async fn main() -> Result<(), Error> {
     let config = Config::load(std::env::var("CONFIG_PATH").unwrap().as_str())?;
 
     // Initialize database connection pool
-    let db = utils::db::create_pool(&config.database.path).await?;
+    let db = utils::db::create_pool(&config.database.uri).await?;
 
     // Start HTTP server
     let server_config = config.clone();

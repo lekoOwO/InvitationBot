@@ -17,9 +17,7 @@ impl TestContext {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
             },
-            database: crate::utils::config::DatabaseConfig {
-                path: "test.db".to_string(),
-            },
+            database: crate::utils::config::DatabaseConfig { uri: db_url },
             server: crate::utils::config::ServerConfig {
                 external_url: "http://localhost:8080".to_string(),
                 bind: "127.0.0.1:8080".to_string(),

@@ -180,9 +180,7 @@ mod tests {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
             },
-            database: DatabaseConfig {
-                path: "test.db".to_string(),
-            },
+            database: DatabaseConfig { uri: db_url },
             server: ServerConfig {
                 external_url: "http://localhost:8080".to_string(),
                 bind: "127.0.0.1:8080".to_string(),

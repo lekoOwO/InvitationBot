@@ -25,7 +25,7 @@ pub struct BotConfig {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DatabaseConfig {
-    pub path: String,
+    pub uri: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -91,16 +91,17 @@ mod tests {
     use super::*;
     use std::io::Write;
     use tempfile::NamedTempFile;
+    use uuid::Uuid;
 
     fn create_test_config() -> (NamedTempFile, Config) {
+        let db_url = format!("sqlite:file:{}?mode=memory", Uuid::new_v4());
+
         let config = Config {
             bot: BotConfig {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
             },
-            database: DatabaseConfig {
-                path: "test.db".to_string(),
-            },
+            database: DatabaseConfig { uri: db_url },
             server: ServerConfig {
                 external_url: "http://localhost:8080".to_string(),
                 bind: "127.0.0.1:8080".to_string(),

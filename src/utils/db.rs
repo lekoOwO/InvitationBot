@@ -1,7 +1,7 @@
 use sqlx::types::time::OffsetDateTime;
-use sqlx::SqlitePool;
+type Pool = sqlx::Pool<sqlx::Sqlite>;
 
-pub async fn setup_database(pool: &SqlitePool) -> Result<(), sqlx::Error> {
+pub async fn setup_database(pool: &Pool) -> Result<(), sqlx::Error> {
     sqlx::query!(
         "CREATE TABLE IF NOT EXISTS invites (
             id TEXT PRIMARY KEY,
@@ -19,14 +19,14 @@ pub async fn setup_database(pool: &SqlitePool) -> Result<(), sqlx::Error> {
     Ok(())
 }
 
-pub async fn create_pool(database_path: &str) -> Result<SqlitePool, sqlx::Error> {
-    let pool = SqlitePool::connect(&format!("sqlite:{}", database_path)).await?;
+pub async fn create_pool(database_path: &str) -> Result<Pool, sqlx::Error> {
+    let pool = Pool::connect(database_path).await?;
     setup_database(&pool).await?;
     Ok(pool)
 }
 
 pub async fn create_invite(
-    pool: &SqlitePool,
+    pool: &Pool,
     invite_id: &str,
     guild_id: &str,
     creator_id: &str,
@@ -45,7 +45,7 @@ pub async fn create_invite(
 }
 
 pub async fn get_unused_invite(
-    pool: &SqlitePool,
+    pool: &Pool,
     invite_id: &str,
 ) -> Result<Option<InviteRecord>, sqlx::Error> {
     sqlx::query_as!(
@@ -58,7 +58,7 @@ pub async fn get_unused_invite(
 }
 
 pub async fn update_invite_code(
-    pool: &SqlitePool,
+    pool: &Pool,
     invite_id: &str,
     discord_code: &str,
 ) -> Result<(), sqlx::Error> {
@@ -73,7 +73,7 @@ pub async fn update_invite_code(
 }
 
 pub async fn count_used_invites(
-    pool: &SqlitePool,
+    pool: &Pool,
     creator_id: &str,
     guild_id: &str,
     days: i32,
@@ -112,7 +112,7 @@ pub struct InviteInfo {
 }
 
 pub async fn get_user_invite_info(
-    pool: &SqlitePool,
+    pool: &Pool,
     user_id: &str,
 ) -> Result<Option<InviteInfo>, sqlx::Error> {
     sqlx::query_as!(
@@ -131,7 +131,7 @@ pub async fn get_user_invite_info(
 
 // 新增：記錄使用邀請的用戶
 pub async fn record_invite_use(
-    pool: &SqlitePool,
+    pool: &Pool,
     invite_id: &str,
     user_id: &str,
 ) -> Result<(), sqlx::Error> {
@@ -152,7 +152,7 @@ pub async fn record_invite_use(
 }
 
 pub async fn find_invite_by_code(
-    pool: &SqlitePool,
+    pool: &Pool,
     discord_code: &str,
 ) -> Result<Option<String>, sqlx::Error> {
     sqlx::query_scalar!(
@@ -171,7 +171,7 @@ pub struct InviteLeaderboardEntry {
 }
 
 pub async fn get_invite_leaderboard(
-    pool: &SqlitePool,
+    pool: &Pool,
     guild_id: &str,
     days: i32,
 ) -> Result<Vec<InviteLeaderboardEntry>, sqlx::Error> {
@@ -203,10 +203,9 @@ pub async fn get_invite_leaderboard(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::SqlitePool;
     use uuid::Uuid;
 
-    async fn setup_test_db() -> SqlitePool {
+    async fn setup_test_db() -> Pool {
         let db_url = format!("sqlite:file:{}?mode=memory", Uuid::new_v4());
         let pool = create_pool(&db_url).await.unwrap();
         sqlx::migrate!().run(&pool).await.unwrap();
