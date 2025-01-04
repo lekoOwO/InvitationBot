@@ -49,116 +49,148 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - os-name: FreeBSD-x86_64
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-freebsd
-            skip-tests: true
-
-          - os-name: Linux-x86_64
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-linux-musl
-            skip-tests: true
-
-          - os-name: Linux-x86_64 (native-tls)
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-linux-musl
-            features: native-tls
-            skip-tests: true
-          
-          - os-name: Linux-x86_64
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-linux-gnu
-            skip-tests: true
-
-          - os-name: Linux-x86_64 (native-tls)
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-linux-gnu
-            features: native-tls
-            skip-tests: true
-
-          - os-name: Linux-aarch64
-            runs-on: ubuntu-22.04
-            target: aarch64-unknown-linux-musl
-            skip-tests: true
-
-          - os-name: Linux-arm
-            runs-on: ubuntu-22.04
-            target: arm-unknown-linux-musleabi
-            skip-tests: true
-
-          - os-name: Linux-i686
-            runs-on: ubuntu-22.04
-            target: i686-unknown-linux-musl
-            skip-tests: true
-            
-          - os-name: Linux-powerpc64
-            runs-on: ubuntu-22.04
-            target: powerpc64-unknown-linux-gnu
-            skip-tests: true
-
-          - os-name: Linux-powerpc64le
-            runs-on: ubuntu-22.04
-            target: powerpc64le-unknown-linux-gnu
-            skip-tests: true
-
-          - os-name: Linux-riscv64
-            runs-on: ubuntu-22.04
-            target: riscv64gc-unknown-linux-gnu
-            skip-tests: true
-
-          - os-name: Linux-s390x
-            runs-on: ubuntu-22.04
-            target: s390x-unknown-linux-gnu
-            skip-tests: true
-
-          - os-name: NetBSD-x86_64
-            runs-on: ubuntu-22.04
-            target: x86_64-unknown-netbsd
-            skip-tests: true
-
-          - os-name: Windows-aarch64
-            runs-on: windows-latest
-            target: aarch64-pc-windows-msvc
-            skip-tests: true
-
-          - os-name: Windows-i686
-            runs-on: windows-latest
-            target: i686-pc-windows-msvc
-            skip-tests: true
-
-          - os-name: Windows-x86_64
-            runs-on: windows-latest
-            target: x86_64-pc-windows-msvc
-            skip-tests: true
-
-          - os-name: macOS-x86_64
-            runs-on: macOS-latest
-            target: x86_64-apple-darwin
-            skip-tests: true
-
-          - os-name: macOS-aarch64
-            runs-on: macOS-latest
-            target: aarch64-apple-darwin
-            skip-tests: true
-
-        toolchain:
-          - stable
-
         include:
           - platform:
-              os-name: Linux-x86_64
+              os-name: FreeBSD-x86_64
               runs-on: ubuntu-22.04
-              target: x86_64-unknown-linux-musl
-              bin: InvitationBot
+              target: x86_64-unknown-freebsd
+              skip-tests: true
             toolchain: beta
 
           - platform:
               os-name: Linux-x86_64
               runs-on: ubuntu-22.04
               target: x86_64-unknown-linux-musl
-              bin: InvitationBot
-            toolchain: nightly
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: Linux-x86_64 (native-tls)
+              runs-on: ubuntu-22.04
+              target: x86_64-unknown-linux-musl
+              features: native-tls
+              skip-tests: true
+            toolchain: stable
+          
+          - platform:
+              os-name: Linux-x86_64
+              runs-on: ubuntu-22.04
+              target: x86_64-unknown-linux-gnu
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: Linux-x86_64 (native-tls)
+              runs-on: ubuntu-22.04
+              target: x86_64-unknown-linux-gnu
+              features: native-tls
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: Linux-aarch64
+              runs-on: ubuntu-22.04
+              target: aarch64-unknown-linux-musl
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-arm
+              runs-on: ubuntu-22.04
+              target: arm-unknown-linux-musleabi
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-i686
+              runs-on: ubuntu-22.04
+              target: i686-unknown-linux-musl
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-powerpc64
+              runs-on: ubuntu-22.04
+              target: powerpc64-unknown-linux-gnu
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-powerpc64le
+              runs-on: ubuntu-22.04
+              target: powerpc64le-unknown-linux-gnu
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-riscv64
+              runs-on: ubuntu-22.04
+              target: riscv64gc-unknown-linux-gnu
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Linux-s390x
+              runs-on: ubuntu-22.04
+              target: s390x-unknown-linux-gnu
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: NetBSD-x86_64
+              runs-on: ubuntu-22.04
+              target: x86_64-unknown-netbsd
+              skip-tests: true
+            toolchain: beta
+
+          - platform:
+              os-name: Windows-aarch64
+              runs-on: windows-latest
+              target: aarch64-pc-windows-msvc
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: Windows-i686
+              runs-on: windows-latest
+              target: i686-pc-windows-msvc
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: Windows-x86_64
+              runs-on: windows-latest
+              target: x86_64-pc-windows-msvc
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: macOS-x86_64
+              runs-on: macOS-latest
+              target: x86_64-apple-darwin
+              skip-tests: true
+            toolchain: stable
+
+          - platform:
+              os-name: macOS-aarch64
+              runs-on: macOS-latest
+              target: aarch64-apple-darwin
+              skip-tests: true
+            toolchain: stable
+
+          # - platform:
+          #     os-name: Linux-x86_64
+          #     runs-on: ubuntu-22.04
+          #     target: x86_64-unknown-linux-musl
+          #     bin: InvitationBot
+          #   toolchain: beta
+
+          # - platform:
+          #     os-name: Linux-x86_64
+          #     runs-on: ubuntu-22.04
+          #     target: x86_64-unknown-linux-musl
+          #     bin: InvitationBot
+          #   toolchain: nightly
 
     steps:
       - uses: actions/checkout@v4
