@@ -27,14 +27,13 @@ jobs:
 
       - name: Setup sqlx
         shell: bash
+        env:
+          DATABASE_URL: 'sqlite:.tmp.db'
         run: |
-          temp_file=$(mktemp)
           cargo install sqlx-cli
-          export DATABASE_URL=sqlite:${temp_file}
           cargo sqlx database create
           cargo sqlx migrate run
           cargo sqlx prepare
-          unset DATABASE_URL
       
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
@@ -222,14 +221,13 @@ jobs:
 
       - name: Setup sqlx
         shell: bash
+        env:
+          DATABASE_URL: 'sqlite:.tmp.db'
         run: |
-          temp_file=$(mktemp)
           cargo install sqlx-cli
-          export DATABASE_URL=sqlite:${temp_file}
           cargo sqlx database create
           cargo sqlx migrate run
           cargo sqlx prepare
-          unset DATABASE_URL
 
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2

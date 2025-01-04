@@ -2,20 +2,7 @@ use sqlx::types::time::OffsetDateTime;
 type Pool = sqlx::Pool<sqlx::Sqlite>;
 
 pub async fn setup_database(pool: &Pool) -> Result<(), sqlx::Error> {
-    sqlx::query!(
-        "CREATE TABLE IF NOT EXISTS invites (
-            id TEXT PRIMARY KEY,
-            guild_id TEXT NOT NULL,
-            creator_id TEXT NOT NULL,
-            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            used_at DATETIME,
-            used_by TEXT,
-            discord_invite_code TEXT
-        )"
-    )
-    .execute(pool)
-    .await?;
-
+    sqlx::migrate!().run(pool).await?;
     Ok(())
 }
 
