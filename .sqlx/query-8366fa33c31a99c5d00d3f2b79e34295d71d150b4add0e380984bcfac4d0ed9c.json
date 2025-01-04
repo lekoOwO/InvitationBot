@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT guild_id, creator_id, discord_invite_code as code FROM invites WHERE id = ? AND used_at IS NULL",
+  "describe": {
+    "columns": [
+      {
+        "name": "guild_id",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "creator_id",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "code",
+        "ordinal": 2,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "8366fa33c31a99c5d00d3f2b79e34295d71d150b4add0e380984bcfac4d0ed9c"
+}

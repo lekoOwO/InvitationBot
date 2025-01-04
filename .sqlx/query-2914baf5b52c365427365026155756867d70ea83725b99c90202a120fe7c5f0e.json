@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "CREATE TABLE IF NOT EXISTS invites (\n            id TEXT PRIMARY KEY,\n            guild_id TEXT NOT NULL,\n            creator_id TEXT NOT NULL,\n            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n            used_at DATETIME,\n            used_by TEXT,\n            discord_invite_code TEXT\n        )",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": []
+  },
+  "hash": "2914baf5b52c365427365026155756867d70ea83725b99c90202a120fe7c5f0e"
+}

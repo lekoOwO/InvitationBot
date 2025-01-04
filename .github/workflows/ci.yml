@@ -24,6 +24,17 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+
+      - name: Setup sqlx
+        shell: bash
+        run: |
+          temp_file=$(mktemp)
+          cargo install sqlx-cli
+          export DATABASE_URL=sqlite:${temp_file}
+          cargo sqlx database create
+          cargo sqlx migrate run
+          cargo sqlx prepare
+          unset DATABASE_URL
       
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
@@ -209,6 +220,17 @@ jobs:
           toolchain: ${{ steps.pre.outputs.toolchain  }}
           target: ${{ matrix.platform.target }}
 
+      - name: Setup sqlx
+        shell: bash
+        run: |
+          temp_file=$(mktemp)
+          cargo install sqlx-cli
+          export DATABASE_URL=sqlite:${temp_file}
+          cargo sqlx database create
+          cargo sqlx migrate run
+          cargo sqlx prepare
+          unset DATABASE_URL
+
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
         with:
@@ -224,7 +246,7 @@ jobs:
           command: build
           args: --locked --release --features ${{ steps.pre.outputs.features }} --target=${{ matrix.platform.target }}
           use-cross: ${{ matrix.platform.cross }}
-          cross-version: 0.2.5
+          cross-version: main
           toolchain: ${{ steps.pre.outputs.toolchain }}
         env:
           RUST_BACKTRACE: full

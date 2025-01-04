@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "\n        SELECT \n            creator_id,\n            COUNT(*) as invite_count\n        FROM invites \n        WHERE guild_id = ?\n        AND created_at > datetime('now', ?)\n        AND used_at IS NOT NULL\n        GROUP BY creator_id\n        ORDER BY invite_count DESC, creator_id ASC\n        LIMIT 5\n        ",
+  "describe": {
+    "columns": [
+      {
+        "name": "creator_id",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "invite_count",
+        "ordinal": 1,
+        "type_info": "Integer"
+      }
+    ],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "456c7b561e802e3361b3fd35b8a44bc7a03479cc9055aabc19ca0a605642e10a"
+}

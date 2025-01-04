@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT creator_id, used_at, discord_invite_code\n         FROM invites \n         WHERE used_by = ? \n         AND used_at IS NOT NULL\n         ORDER BY used_at DESC\n         LIMIT 1",
+  "describe": {
+    "columns": [
+      {
+        "name": "creator_id",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "used_at",
+        "ordinal": 1,
+        "type_info": "Datetime"
+      },
+      {
+        "name": "discord_invite_code",
+        "ordinal": 2,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "7c368ac725549a5467b805eed187e51efe51983db4f267cd298624f3ed303a28"
+}

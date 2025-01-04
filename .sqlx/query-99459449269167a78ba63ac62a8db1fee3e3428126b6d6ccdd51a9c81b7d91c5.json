@@ -1,10 +1,10 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT guild_id FROM invites WHERE id = ? AND used_at IS NULL",
+  "query": "SELECT id FROM invites WHERE discord_invite_code = ? AND used_at IS NULL LIMIT 1",
   "describe": {
     "columns": [
       {
-        "name": "guild_id",
+        "name": "id",
         "ordinal": 0,
         "type_info": "Text"
       }
@@ -13,8 +13,8 @@
       "Right": 1
     },
     "nullable": [
-      false
+      true
     ]
   },
-  "hash": "baf87e81fdfe25b1b379a826b007d85d6ca08d6b8a2d7d78cdf7dcfa0571b63c"
+  "hash": "99459449269167a78ba63ac62a8db1fee3e3428126b6d6ccdd51a9c81b7d91c5"
 }

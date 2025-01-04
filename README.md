@@ -32,18 +32,15 @@ cd invitationbot
 mkdir data
 cp config.example.yaml data/config.yaml
 # Edit config.yaml with your settings
-
-# Set up the database
-echo "DATABASE_URL=sqlite:data/bot.db" > .env
-echo "CONFIG_PATH=data/config.yaml" >> .env
-cargo install sqlx-cli
-sqlx database create
-sqlx migrate run
 ```
 
 3. Run the bot:
 
 ```bash
+# Set up the database
+echo "DATABASE_URL=sqlite:data/bot.db" > .env
+echo "CONFIG_PATH=data/config.yaml" >> .env
+
 cargo run --release
 ```
 
