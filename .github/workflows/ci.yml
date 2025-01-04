@@ -41,7 +41,7 @@ jobs:
         run: cargo test
 
   build:
-    name: Build on ${{ matrix.platform.os-name }} with rust ${{ matrix.toolchain }}
+    name: Build on ${{ matrix.platform.os-name }} with rust ${{ matrix.platform.toolchain || 'stable' }}
     runs-on: ${{ matrix.platform.runs-on }}
     env:
       GITHUB_TOKEN: ${{ github.token }}
@@ -49,202 +49,201 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform:
-              os-name: FreeBSD-x86_64
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-freebsd
-              skip-tests: true
-            toolchain: beta
+        platform:
+          - os-name: FreeBSD-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-freebsd
+            skip-tests: true
+            cross: true
 
-          - platform:
-              os-name: Linux-x86_64
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-linux-musl
-              skip-tests: true
-            toolchain: stable
+          - os-name: Linux-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-musl
+            skip-tests: true
+            cross: false
 
-          - platform:
-              os-name: Linux-x86_64 (native-tls)
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-linux-musl
-              features: native-tls
-              skip-tests: true
-            toolchain: stable
+          - os-name: Linux-x86_64 (native-tls)
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-musl
+            features: native-tls
+            skip-tests: true
+            cross: false
           
-          - platform:
-              os-name: Linux-x86_64
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-linux-gnu
-              skip-tests: true
-            toolchain: stable
+          - os-name: Linux-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            skip-tests: true
+            cross: false
 
-          - platform:
-              os-name: Linux-x86_64 (native-tls)
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-linux-gnu
-              features: native-tls
-              skip-tests: true
-            toolchain: stable
+          - os-name: Linux-x86_64 (native-tls)
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            features: native-tls
+            skip-tests: true
+            cross: false
 
-          - platform:
-              os-name: Linux-aarch64
-              runs-on: ubuntu-22.04
-              target: aarch64-unknown-linux-musl
-              skip-tests: true
+          - os-name: Linux-aarch64
+            runs-on: ubuntu-22.04
+            target: aarch64-unknown-linux-musl
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-arm
+            runs-on: ubuntu-22.04
+            target: arm-unknown-linux-musleabi
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-i686
+            runs-on: ubuntu-22.04
+            target: i686-unknown-linux-musl
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-powerpc64
+            runs-on: ubuntu-22.04
+            target: powerpc64-unknown-linux-gnu
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-powerpc64le
+            runs-on: ubuntu-22.04
+            target: powerpc64le-unknown-linux-gnu
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-riscv64
+            runs-on: ubuntu-22.04
+            target: riscv64gc-unknown-linux-gnu
+            skip-tests: true
+            cross: true
+
+          - os-name: Linux-s390x
+            runs-on: ubuntu-22.04
+            target: s390x-unknown-linux-gnu
+            skip-tests: true
+            cross: true
+
+          - os-name: NetBSD-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-netbsd
+            skip-tests: true
+            cross: true
+
+          - os-name: Windows-aarch64
+            runs-on: windows-latest
+            target: aarch64-pc-windows-msvc
+            skip-tests: true
+            cross: false
+
+          - os-name: Windows-i686
+            runs-on: windows-latest
+            target: i686-pc-windows-msvc
+            skip-tests: true
+            cross: false
+
+          - os-name: Windows-x86_64
+            runs-on: windows-latest
+            target: x86_64-pc-windows-msvc
+            skip-tests: true
+            cross: false
+
+          - os-name: macOS-x86_64
+            runs-on: macOS-latest
+            target: x86_64-apple-darwin
+            skip-tests: true
+            cross: false
+
+          - os-name: macOS-aarch64
+            runs-on: macOS-latest
+            target: aarch64-apple-darwin
+            skip-tests: true
+            cross: false
+
+          - os-name: Linux-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-musl
+            bin: InvitationBot
             toolchain: beta
+            cross: false
 
-          - platform:
-              os-name: Linux-arm
-              runs-on: ubuntu-22.04
-              target: arm-unknown-linux-musleabi
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Linux-i686
-              runs-on: ubuntu-22.04
-              target: i686-unknown-linux-musl
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Linux-powerpc64
-              runs-on: ubuntu-22.04
-              target: powerpc64-unknown-linux-gnu
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Linux-powerpc64le
-              runs-on: ubuntu-22.04
-              target: powerpc64le-unknown-linux-gnu
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Linux-riscv64
-              runs-on: ubuntu-22.04
-              target: riscv64gc-unknown-linux-gnu
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Linux-s390x
-              runs-on: ubuntu-22.04
-              target: s390x-unknown-linux-gnu
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: NetBSD-x86_64
-              runs-on: ubuntu-22.04
-              target: x86_64-unknown-netbsd
-              skip-tests: true
-            toolchain: beta
-
-          - platform:
-              os-name: Windows-aarch64
-              runs-on: windows-latest
-              target: aarch64-pc-windows-msvc
-              skip-tests: true
-            toolchain: stable
-
-          - platform:
-              os-name: Windows-i686
-              runs-on: windows-latest
-              target: i686-pc-windows-msvc
-              skip-tests: true
-            toolchain: stable
-
-          - platform:
-              os-name: Windows-x86_64
-              runs-on: windows-latest
-              target: x86_64-pc-windows-msvc
-              skip-tests: true
-            toolchain: stable
-
-          - platform:
-              os-name: macOS-x86_64
-              runs-on: macOS-latest
-              target: x86_64-apple-darwin
-              skip-tests: true
-            toolchain: stable
-
-          - platform:
-              os-name: macOS-aarch64
-              runs-on: macOS-latest
-              target: aarch64-apple-darwin
-              skip-tests: true
-            toolchain: stable
-
-          # - platform:
-          #     os-name: Linux-x86_64
-          #     runs-on: ubuntu-22.04
-          #     target: x86_64-unknown-linux-musl
-          #     bin: InvitationBot
-          #   toolchain: beta
-
-          # - platform:
-          #     os-name: Linux-x86_64
-          #     runs-on: ubuntu-22.04
-          #     target: x86_64-unknown-linux-musl
-          #     bin: InvitationBot
-          #   toolchain: nightly
+          - os-name: Linux-x86_64
+            runs-on: ubuntu-22.04
+            target: x86_64-unknown-linux-musl
+            bin: InvitationBot
+            toolchain: nightly
+            cross: false
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Set "--features" flag value
-        id: set-features-flag-value
+        id: pre
         shell: bash
         run: |
           if [ -n "${{ matrix.platform.features }}" ]; then
-              echo "features=${{ matrix.platform.features }}" >> "$GITHUB_OUTPUT"
-              echo "binary-postfix=-${{ matrix.platform.features }}" >> "$GITHUB_OUTPUT"
+            echo "features=${{ matrix.platform.features }}" >> "$GITHUB_OUTPUT"
+            echo "binary-postfix=-${{ matrix.platform.features }}" >> "$GITHUB_OUTPUT"
           else 
-              echo "features=default" >> "$GITHUB_OUTPUT"
-              echo "binary-postfix=" >> "$GITHUB_OUTPUT"
+            echo "features=default" >> "$GITHUB_OUTPUT"
+            echo "binary-postfix=" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "${{ matrix.platform.toolchain }}" ]; then
+            echo "toolchain=${{ matrix.platform.toolchain }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "toolchain=stable" >> "$GITHUB_OUTPUT"
           fi
           cat "$GITHUB_OUTPUT"
 
-      - name: Maybe install SSL packages
+      - name: Install SSL packages (if required)
         run: sudo apt-get update --yes && sudo apt-get install --yes pkg-config openssl libssl-dev
-        if: matrix.platform.features == 'native-tls'
+        if: ${{ steps.pre.outputs.features == 'native-tls' }}
+
+      - name: Install musl (if required)
+        run: sudo apt-get update --yes && sudo apt-get install --yes musl musl-dev musl-tools
+        if: ${{ contains(matrix.platform.target, 'musl') }}
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ steps.pre.outputs.toolchain  }}
+          target: ${{ matrix.platform.target }}
 
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.platform.target }}-${{ steps.pre.outputs.toolchain  }}-${{ steps.pre.outputs.features }}
+          cache-all-crates: true
 
       - name: Copy config
         run: cp config.example.yaml config.yaml
 
       - name: Build binary
-        uses: houseabsolute/actions-rust-cross@v1
+        uses: ClementTsang/cargo-action@v0.0.5
         with:
-          command: "build"
-          target: ${{ matrix.platform.target }}
-          toolchain: ${{ matrix.toolchain }}
-          args:
-            "--locked --release --features ${{ steps.set-features-flag-value.outputs.features }}"
-          strip: true
+          command: build
+          args: --locked --release --features ${{ steps.pre.outputs.features }} --target=${{ matrix.platform.target }}
+          use-cross: ${{ matrix.platform.cross }}
+          cross-version: 0.2.5
+          toolchain: ${{ steps.pre.outputs.toolchain }}
+        env:
+          RUST_BACKTRACE: full
 
       - name: Run tests
-        uses: houseabsolute/actions-rust-cross@v1
+        uses: ClementTsang/cargo-action@v0.0.5
         with:
-          command: "test"
-          target: ${{ matrix.platform.target }}
-          toolchain: ${{ matrix.toolchain }}
-          args:
-            "--locked --release  --features ${{ steps.set-features-flag-value.outputs.features }}"
+          command: test
+          args: --locked --release --features ${{ steps.pre.outputs.features }} --target=${{ matrix.platform.target }}
+          use-cross: ${{ matrix.platform.cross }}
+          toolchain: ${{ steps.pre.outputs.toolchain }}
         if: ${{ !matrix.platform.skip-tests }}
+        env:
+          RUST_BACKTRACE: full
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.CRATE_NAME }}-${{ matrix.platform.target }}${{steps.set-features-flag-value.outputs.binary-postfix }}-${{ matrix.toolchain }}
+          name: ${{ env.CRATE_NAME }}-${{ matrix.platform.target }}${{steps.pre.outputs.binary-postfix }}-${{ steps.pre.outputs.toolchain  }}
           path: target/${{ matrix.platform.target }}/release/${{ env.CRATE_NAME }}*
 
   release:
