@@ -27,7 +27,7 @@ pub async fn run_server(config: Config, db: SqlitePool) {
     };
 
     let app = Router::new()
-        .route("/invite/:id", get(handle_invite))
+        .route("/invite/{id}", get(handle_invite))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 

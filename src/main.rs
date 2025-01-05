@@ -10,8 +10,8 @@ mod migrations;
 mod slash_commands;
 mod utils;
 
-use utils::config::Config;
 use dotenv::dotenv;
+use utils::config::Config;
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
