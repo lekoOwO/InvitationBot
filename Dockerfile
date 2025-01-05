@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 ENV DATABASE_URL=sqlite:/tmp/bot.db
 RUN cargo install sqlx-cli && \
     sqlx database create && \
-    sqlx migrate run
+    sqlx migrate run --source src/migrations
 
 RUN cargo build --release
 

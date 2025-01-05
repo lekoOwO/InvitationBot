@@ -6,6 +6,7 @@ use std::collections::HashMap;
 mod handlers;
 mod http_server;
 mod i18n;
+mod migrations;
 mod slash_commands;
 mod utils;
 
