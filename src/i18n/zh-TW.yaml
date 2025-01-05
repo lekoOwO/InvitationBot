@@ -23,7 +23,7 @@ commands:
         description: "您在過去 {days} 天內只能邀請 {count} 人"
         status: "目前狀態"
         used: "已使用 {count} 次"
-        remaining: "剩餘 {count} 次"
+        remaining: "剩餘 {remaining} 次"
         footer: "請等待限制重置後再試"
     success:
       title: "🎫 已建立新邀請"

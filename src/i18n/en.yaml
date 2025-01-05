@@ -23,7 +23,7 @@ commands:
         description: "You can only invite {count} people in the past {days} days"
         status: "Current Status"
         used: "{count} used"
-        remaining: "{count} remaining"
+        remaining: "{remaining} remaining"
         footer: "Try again when your limit resets"
       join_date_not_found:
         title: "❌ Join Date Not Found"
