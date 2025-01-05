@@ -173,7 +173,6 @@ mod tests {
     async fn setup_test_app() -> (Router, SqlitePool) {
         let db_url = format!("sqlite:file:{}?mode=memory", Uuid::new_v4());
         let pool = crate::utils::db::create_pool(&db_url).await.unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
 
         let config = Arc::new(Config {
             bot: BotConfig {
