@@ -2,7 +2,12 @@ use sqlx::types::time::OffsetDateTime;
 type Pool = sqlx::Pool<sqlx::Sqlite>;
 
 pub async fn setup_database(pool: &Pool) -> Result<(), sqlx::Error> {
-    sqlx::migrate!().run(pool).await?;
+    let migrations = crate::migrations::get_migrations();
+    for migration in migrations {
+        if let Some(sql) = crate::migrations::get_migration(migration.as_str()) {
+            sqlx::query(&sql).execute(pool).await?;
+        }
+    }
     Ok(())
 }
 
@@ -195,7 +200,6 @@ mod tests {
     async fn setup_test_db() -> Pool {
         let db_url = format!("sqlite:file:{}?mode=memory", Uuid::new_v4());
         let pool = create_pool(&db_url).await.unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
         pool
     }
 

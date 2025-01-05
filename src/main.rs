@@ -6,10 +6,12 @@ use std::collections::HashMap;
 mod handlers;
 mod http_server;
 mod i18n;
+mod migrations;
 mod slash_commands;
 mod utils;
 
 use utils::config::Config;
+use dotenv::dotenv;
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
@@ -63,6 +65,7 @@ async fn on_error(error: poise::FrameworkError<'_, Data, Error>) {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    dotenv::dotenv().ok();
     let config = Config::load(std::env::var("CONFIG_PATH").unwrap().as_str())?;
 
     // Initialize database connection pool

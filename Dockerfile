@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 ENV DATABASE_URL=sqlite:/tmp/bot.db
 RUN cargo install sqlx-cli && \
     sqlx database create && \
-    sqlx migrate run
+    sqlx migrate run --source src/migrations
 
 RUN cargo build --release
 
@@ -21,7 +21,6 @@ FROM gcr.io/distroless/cc-debian12
 WORKDIR /app
 
 COPY --from=builder /usr/src/app/target/release/InvitationBot /app/
-COPY --from=builder /usr/src/app/migrations /app/migrations
 
 ENV DATABASE_URL=sqlite:data/bot.db
 ENV CONFIG_PATH=data/config.yaml

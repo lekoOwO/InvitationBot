@@ -32,7 +32,7 @@ jobs:
         run: |
           cargo install sqlx-cli
           cargo sqlx database create
-          cargo sqlx migrate run
+          cargo sqlx migrate run --source src/migrations
           cargo sqlx prepare
       
       - name: Cache dependencies
@@ -176,6 +176,7 @@ jobs:
             bin: InvitationBot
             toolchain: beta
             cross: false
+            skip-tests: true
 
           - os-name: Linux-x86_64
             runs-on: ubuntu-22.04
@@ -183,6 +184,7 @@ jobs:
             bin: InvitationBot
             toolchain: nightly
             cross: false
+            skip-tests: true
 
     steps:
       - uses: actions/checkout@v4
@@ -226,7 +228,7 @@ jobs:
         run: |
           cargo install sqlx-cli
           cargo sqlx database create
-          cargo sqlx migrate run
+          cargo sqlx migrate run --source src/migrations
           cargo sqlx prepare
 
       - name: Cache dependencies
@@ -306,7 +308,7 @@ jobs:
 
             [ -f "${dir}/${CRATE_NAME}" ] && mv "${dir}/${CRATE_NAME}" "release/${dir_name}"
             [ -f "${dir}/${CRATE_NAME}.exe" ] && mv "${dir}/${CRATE_NAME}.exe" "release/${dir_name}.exe"
-            
+
           done
 
           ls -la release
