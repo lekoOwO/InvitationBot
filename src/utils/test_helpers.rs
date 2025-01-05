@@ -24,7 +24,6 @@ impl TestContext {
             },
             i18n: crate::utils::config::I18nConfig {
                 default_locale: "en".to_string(),
-                available_locales: vec!["en".to_string()],
             },
             guilds: crate::utils::config::GuildConfig { allowed: vec![] },
         };

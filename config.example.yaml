@@ -11,11 +11,8 @@ server:
   bind: "127.0.0.1:8080"                        # Internal binding address
 
 i18n:
-  default_locale: "en"
-  available_locales:
-    - "en"
-    - "zh-TW"
-
+  default_locale: "en" # Available locales: en, zh-TW
+  
 guilds:
   allowed:
     - id: "123456789012345678"

@@ -14,7 +14,6 @@ pub struct Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct I18nConfig {
     pub default_locale: String,
-    pub available_locales: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -69,10 +68,8 @@ impl Config {
         let config: Config = serde_yaml::from_str(&content)?;
 
         // Validate locales
-        for locale in &config.i18n.available_locales {
-            if !AVAILABLE_LOCALES.contains(&locale.as_str()) {
-                return Err(format!("Unsupported locale: {}", locale).into());
-            }
+        if !AVAILABLE_LOCALES.contains(&config.i18n.default_locale.as_str()) {
+            return Err(format!("Unsupported locale: {}", config.i18n.default_locale).into());
         }
 
         Ok(config)
@@ -111,7 +108,6 @@ mod tests {
             },
             i18n: I18nConfig {
                 default_locale: "en".to_string(),
-                available_locales: vec!["en".to_string(), "zh-TW".to_string()],
             },
             guilds: GuildConfig { allowed: vec![] },
         };
@@ -142,7 +138,6 @@ mod tests {
         let config = Config {
             i18n: I18nConfig {
                 default_locale: "invalid".to_string(),
-                available_locales: vec!["invalid".to_string()],
             },
             ..create_test_config().1
         };
@@ -221,7 +216,5 @@ mod tests {
         assert_eq!(config.bot.default_min_member_age, 5184000);
 
         assert_eq!(config.i18n.default_locale, "en");
-        assert!(config.i18n.available_locales.contains(&"en".to_string()));
-        assert!(config.i18n.available_locales.contains(&"zh-TW".to_string()));
     }
 }

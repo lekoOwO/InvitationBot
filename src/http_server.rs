@@ -187,7 +187,6 @@ mod tests {
             },
             i18n: I18nConfig {
                 default_locale: "en".to_string(),
-                available_locales: vec!["en".to_string()],
             },
             guilds: GuildConfig { allowed: vec![] },
         });
