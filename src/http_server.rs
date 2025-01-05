@@ -178,6 +178,7 @@ mod tests {
             bot: BotConfig {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
+                default_min_member_age: 5184000,
             },
             database: DatabaseConfig { uri: db_url },
             server: ServerConfig {

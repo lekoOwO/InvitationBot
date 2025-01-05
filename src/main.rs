@@ -10,7 +10,6 @@ mod migrations;
 mod slash_commands;
 mod utils;
 
-use dotenv::dotenv;
 use utils::config::Config;
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -66,6 +65,9 @@ async fn on_error(error: poise::FrameworkError<'_, Data, Error>) {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     dotenv::dotenv().ok();
+
+    env_logger::init();
+
     let config = Config::load(std::env::var("CONFIG_PATH").unwrap().as_str())?;
 
     // Initialize database connection pool
@@ -140,8 +142,13 @@ struct Handler {
 #[async_trait]
 impl serenity::EventHandler for Handler {
     async fn guild_member_addition(&self, ctx: serenity::Context, new_member: serenity::Member) {
-        handlers::handle_guild_member_addition(&ctx, new_member.guild_id, &new_member, &self.data)
-            .await;
+        handlers::guild_member_add::handle_guild_member_add(
+            &ctx,
+            new_member.guild_id,
+            &new_member,
+            &self.data,
+        )
+        .await;
     }
 }
 

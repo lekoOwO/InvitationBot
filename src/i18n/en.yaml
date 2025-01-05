@@ -25,6 +25,10 @@ commands:
         used: "{count} used"
         remaining: "{count} remaining"
         footer: "Try again when your limit resets"
+      join_date_not_found:
+        title: "❌ Join Date Not Found"
+        description: "Failed to fetch join date"
+        footer: "This is likely a Discord API error"
     success:
       title: "🎫 New Invite Created"
       description: "Here's your invite link for **{guild}**"

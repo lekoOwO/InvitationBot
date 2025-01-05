@@ -46,6 +46,10 @@ commands:
         title: "❌ 無效的用戶 ID"
         description: "無法取得邀請者資訊"
         footer: "這可能是資料庫錯誤"
+      join_date_not_found:
+        title: "❌ 找不到用戶加入日期"
+        description: "無法取得用戶加入日期"
+        footer: "這可能是 Discord API 錯誤"
     success:
       title: "👥 邀請資訊"
       user: "用戶"

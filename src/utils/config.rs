@@ -21,6 +21,7 @@ pub struct I18nConfig {
 pub struct BotConfig {
     pub token: String,
     pub default_invite_max_age: u32,
+    pub default_min_member_age: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -45,6 +46,7 @@ pub struct AllowedGuild {
     pub name: String,
     pub invite_channel: String,
     pub max_age: Option<u32>,
+    pub min_member_age: Option<u32>,
     pub locale: Option<String>,
     pub allowed_roles: Vec<AllowedRole>,
 }
@@ -100,6 +102,7 @@ mod tests {
             bot: BotConfig {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
+                default_min_member_age: 5184000,
             },
             database: DatabaseConfig { uri: db_url },
             server: ServerConfig {
@@ -165,6 +168,7 @@ mod tests {
             name: "Test Guild".to_string(),
             invite_channel: "456".to_string(),
             max_age: None,
+            min_member_age: None,
             locale: Some("zh-TW".to_string()),
             allowed_roles: vec![],
         });
@@ -189,7 +193,8 @@ mod tests {
             id: "123".to_string(),
             name: "Test Guild".to_string(),
             invite_channel: "456".to_string(),
-            max_age: Some(7200), // 自定義過期時間
+            max_age: Some(7200),
+            min_member_age: Some(5184000),
             locale: None,
             allowed_roles: vec![AllowedRole {
                 id: "789".to_string(),
@@ -212,10 +217,9 @@ mod tests {
     fn test_default_values() {
         let config = create_test_config().1;
 
-        // 測試預設邀請過期時間
         assert_eq!(config.bot.default_invite_max_age, 300);
+        assert_eq!(config.bot.default_min_member_age, 5184000);
 
-        // 測試預設語言設定
         assert_eq!(config.i18n.default_locale, "en");
         assert!(config.i18n.available_locales.contains(&"en".to_string()));
         assert!(config.i18n.available_locales.contains(&"zh-TW".to_string()));

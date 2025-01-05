@@ -1,6 +1,7 @@
 bot:
   token: "YOUR_BOT_TOKEN"
   default_invite_max_age: 300  # Default 5 minutes
+  default_min_member_age: 5184000  # Default 60 days
 
 database:
   uri: "sqlite:data/bot.db"
@@ -21,6 +22,7 @@ guilds:
       name: "Test Server"
       invite_channel: "111222333444555"
       max_age: 600  # Optional, 10 minutes for this guild
+      min_member_age: 5184000  # Optional, 60 days for this guild
       locale: "zh-TW"  # Optional response locale
       allowed_roles:
         - id: "111222333444555"

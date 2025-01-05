@@ -15,6 +15,7 @@ impl TestContext {
             bot: crate::utils::config::BotConfig {
                 token: "test_token".to_string(),
                 default_invite_max_age: 300,
+                default_min_member_age: 5184000,
             },
             database: crate::utils::config::DatabaseConfig { uri: db_url },
             server: crate::utils::config::ServerConfig {

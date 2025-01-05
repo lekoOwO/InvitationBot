@@ -34,6 +34,15 @@ cp config.example.yaml data/config.yaml
 # Edit config.yaml with your settings
 ```
 
+Bot must have these permissions in the invite channel:
+  - `Attach Files`
+  - `Create Instant Invite`
+  - `Embed Links`
+  - `Manage Channels`
+  - `Read Message History`
+  - `Send Messages` (Or `Send Messages in Threads`)
+  - `Use Slash Commands`
+
 3. Run the bot:
 
 ```bash

@@ -121,7 +121,6 @@ pub async fn get_user_invite_info(
     .await
 }
 
-// 新增：記錄使用邀請的用戶
 pub async fn record_invite_use(
     pool: &Pool,
     invite_id: &str,
