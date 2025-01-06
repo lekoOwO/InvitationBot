@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Configuration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        .dark {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        .dark .ring-gray-300 {
+            --tw-ring-color: #4b5563;
+        }
+        .dark .border-gray-300 {
+            --tw-border-opacity: 1;
+            border-color: #4b5563;
+        }
+        .dark .text-gray-500 {
+            --tw-text-opacity: 1;
+            color: #9ca3af;
+        }
+        .dark .bg-gray-100 {
+            --tw-bg-opacity: 1;
+            background-color: #334155;
+        }
+        .dark .hover\:bg-gray-200:hover {
+            --tw-bg-opacity: 1;
+            background-color: #4b5563;
+        }
+        .dark .focus\:ring-gray-300:focus {
+            --tw-ring-color: #4b5563;
+        }
+        .dark .focus\:border-gray-300:focus {
+            --tw-border-opacity: 1;
+            border-color: #4b5563;
+        }
+        .dark .text-gray-700 {
+            --tw-text-opacity: 1;
+            color: #e2e8f0;
+        }
+        .dark .bg-white {
+            --tw-bg-opacity: 1;
+            background-color: #1e293b;
+        }
+        .dark .text-gray-900 {
+            --tw-text-opacity: 1;
+            color: #f8fafc;
+        }
+        .dark .hover\:bg-gray-100:hover {
+            --tw-bg-opacity: 1;
+            background-color: #334155;
+        }
+        .dark .ring-red-500 {
+            --tw-ring-color: #ef4444;
+        }
+        .dark .border-red-500 {
+            --tw-border-opacity: 1;
+            border-color: #ef4444;
+        }
+        .dark .text-red-500 {
+            --tw-text-opacity: 1;
+            color: #ef4444;
+        }
+        .dark .bg-red-100 {
+            --tw-bg-opacity: 1;
+            background-color: #451a1a;
+        }
+        .dark .hover\:bg-red-200:hover {
+            --tw-bg-opacity: 1;
+            background-color: #572121;
+        }
+        .dark .focus\:ring-red-500:focus {
+            --tw-ring-color: #ef4444;
+        }
+        .dark .focus\:border-red-500:focus {
+            --tw-border-opacity: 1;
+            border-color: #ef4444;
+        }
+        .dark .text-red-700 {
+            --tw-text-opacity: 1;
+            color: #fca5a5;
+        }
+        .dark .bg-red-50 {
+            --tw-bg-opacity: 1;
+            background-color: #2b1313;
+        }
+        .dark .hover\:bg-red-100:hover {
+            --tw-bg-opacity: 1;
+            background-color: #451a1a;
+        }
+        .dark .ring-green-500 {
+            --tw-ring-color: #22c55e;
+        }
+        .dark .border-green-500 {
+            --tw-border-opacity: 1;
+            border-color: #22c55e;
+        }
+        .dark .text-green-500 {
+            --tw-text-opacity: 1;
+            color: #22c55e;
+        }
+        .dark .bg-green-100 {
+            --tw-bg-opacity: 1;
+            background-color: #1a452a;
+        }
+        .dark .hover\:bg-green-200:hover {
+            --tw-bg-opacity: 1;
+            background-color: #215732;
+        }
+        .dark .focus\:ring-green-500:focus {
+            --tw-ring-color: #22c55e;
+        }
+        .dark .focus\:border-green-500:focus {
+            --tw-border-opacity: 1;
+            border-color: #22c55e;
+        }
+        .dark .text-green-700 {
+            --tw-text-opacity: 1;
+            color: #a7f3d0;
+        }
+        .dark .bg-green-50 {
+            --tw-bg-opacity: 1;
+            background-color: #132b1a;
+        }
+        .dark .hover\:bg-green-100:hover {
+            --tw-bg-opacity: 1;
+            background-color: #1a452a;
+        }
+    </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-100">
+    <div id="app" class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Bot Configuration</h1>
+        <div v-if="loading">
+            <p>Loading configuration...</p>
+        </div>
+        <div v-else>
+            <form @submit.prevent="handleSubmit" class="space-y-4">
+                <div class="mb-6 border border-gray-300 dark:border-gray-700 rounded p-4 bg-white dark:bg-gray-800">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Bot Configuration</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="token">
+                            Token <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="token" v-model="config.bot.token" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="default_invite_max_age">
+                            Default Invite Max Age <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" id="default_invite_max_age" v-model="config.bot.default_invite_max_age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="default_min_member_age">
+                            Default Min Member Age <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" id="default_min_member_age" v-model="config.bot.default_min_member_age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                </div>
+
+                <div class="mb-6 border border-gray-300 dark:border-gray-700 rounded p-4 bg-white dark:bg-gray-800">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Database Configuration</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="uri">
+                            URI <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="uri" v-model="config.database.uri" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                </div>
+
+                <div class="mb-6 border border-gray-300 dark:border-gray-700 rounded p-4 bg-white dark:bg-gray-800">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Server Configuration</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="external_url">
+                            External URL <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="external_url" v-model="config.server.external_url" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="bind">
+                            Bind Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="bind" v-model="config.server.bind" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                </div>
+
+                <div class="mb-6 border border-gray-300 dark:border-gray-700 rounded p-4 bg-white dark:bg-gray-800">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">i18n Configuration</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="default_locale">
+                            Default Locale <span class="text-red-500">*</span>
+                        </label>
+                        <select id="default_locale" v-model="config.i18n.default_locale" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                            <option v-for="locale in availableLocales" :value="locale">{{ locale }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-6 border border-gray-300 dark:border-gray-700 rounded p-4 bg-white dark:bg-gray-800">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Guilds Configuration</h2>
+                    <div v-for="(guild, index) in config.guilds.allowed" :key="index" class="mb-4 border border-gray-200 dark:border-gray-700 rounded p-4 bg-gray-100 dark:bg-gray-700">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Guild {{ index + 1 }}</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-id-' + index">
+                                ID <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" :id="'guild-id-' + index" v-model="guild.id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-name-' + index">
+                                Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" :id="'guild-name-' + index" v-model="guild.name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-invite-channel-' + index">
+                                Invite Channel <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" :id="'guild-invite-channel-' + index" v-model="guild.invite_channel" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-max-age-' + index">
+                                Max Age
+                            </label>
+                            <input type="number" :id="'guild-max-age-' + index" v-model="guild.max_age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-min-member-age-' + index">
+                                Min Member Age
+                            </label>
+                            <input type="number" :id="'guild-min-member-age-' + index" v-model="guild.min_member_age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" :for="'guild-locale-' + index">
+                                Locale
+                            </label>
+                            <select :id="'guild-locale-' + index" v-model="guild.locale" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                                <option v-for="locale in availableLocales" :value="locale">{{ locale }}</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Allowed Roles</label>
+                            <div v-for="(role, roleIndex) in guild.allowed_roles" :key="roleIndex" class="flex items-center mb-2 border border-gray-200 dark:border-gray-700 rounded p-2 bg-gray-50 dark:bg-gray-600">
+                                <div class="mr-4 flex-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Role ID <span class="text-red-500">*</span></label>
+                                    <input type="text" v-model="role.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                                </div>
+                                <div class="mr-4 flex-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Invite Count <span class="text-red-500">*</span></label>
+                                    <input type="number" v-model="role.invite_limit.count" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                                </div>
+                                <div class="mr-4 flex-1">
+                                    <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-1">Invite Days <span class="text-red-500">*</span></label>
+                                    <input type="number" v-model="role.invite_limit.days" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                                </div>
+                                <button type="button" @click="removeRole(index, roleIndex)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"><i class="fa fa-trash"></i></button>
+                            </div>
+                            <button type="button" @click="addRole(index)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Add Role</button>
+                        </div>
+                        <button type="button" @click="removeGuild(index)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Remove Guild</button>
+                    </div>
+                    <button type="button" @click="addGuild" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Add Guild</button>
+                </div>
+
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Configuration</button>
+            </form>
+        </div>
+        <div v-if="message" :class="{'text-green-500': success, 'text-red-500': !success}" class="mt-4">
+            {{ message }}
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const loading = ref(true);
+                const config = ref(null);
+                const message = ref('');
+                const success = ref(false);
+                const availableLocales = ref([]);
+
+                onMounted(async () => {
+                    try {
+                        const response = await fetch('/config');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        config.value = data.config;
+                    } catch (error) {
+                        console.error('Failed to fetch config:', error);
+                        message.value = 'Failed to load configuration.';
+                        success.value = false;
+                    } finally {
+                        loading.value = false;
+                    }
+                });
+
+                onMounted(async () => {
+                    try {
+                        const response = await fetch('/locales');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        availableLocales.value = data.locales;
+                    } catch (error) {
+                        console.error('Failed to fetch locales:', error);
+                        availableLocales.value = [];
+                    }
+                });
+
+                const handleSubmit = async () => {
+                    // Validate reqiured fields
+                    const requiredFields = [
+                        { field: config.value.bot.token, name: 'Token' },
+                        { field: config.value.bot.default_invite_max_age, name: 'Default Invite Max Age' },
+                        { field: config.value.bot.default_min_member_age, name: 'Default Min Member Age' },
+                        { field: config.value.database.uri, name: 'Database URI' },
+                        { field: config.value.server.external_url, name: 'External URL' },
+                        { field: config.value.server.bind, name: 'Bind Address' },
+                        { field: config.value.i18n.default_locale, name: 'Default Locale' },
+                    ];
+
+                    for (const { field, name } of requiredFields) {
+                        if (!field) {
+                            message.value = `${name} is required.`;
+                            success.value = false;
+                            return;
+                        }
+                    }
+
+                    // Validate required fields for each guild
+                    for (const guild of config.value.guilds.allowed) {
+                        if (!guild.id) {
+                            message.value = `Guild ID is required.`;
+                            success.value = false;
+                            return;
+                        }
+                        if (!guild.name) {
+                            message.value = `Guild Name is required.`;
+                            success.value = false;
+                            return;
+                        }
+                        if (!guild.invite_channel) {
+                            message.value = `Invite Channel is required.`;
+                            success.value = false;
+                            return;
+                        }
+                    }
+
+                    try {
+                        const payloadConfig = JSON.parse(JSON.stringify(config.value));
+
+                        payloadConfig.guilds.allowed.forEach(guild => {
+                            if (guild.min_member_age === "" || guild.min_member_age === null) {
+                                delete guild.min_member_age;
+                            }
+                            if (guild.max_age === "" || guild.max_age === null) {
+                                delete guild.max_age;
+                            }
+                        });
+
+                        const response = await fetch('/config', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ config: payloadConfig }),
+                        });
+
+                        if (response.ok) {
+                            message.value = 'Configuration saved successfully!';
+                            success.value = true;
+                        } else {
+                            const errorData = await response.json();
+                            message.value = `Failed to save configuration: ${errorData.message || 'Unknown error'}`;
+                            success.value = false;
+                        }
+                    } catch (error) {
+                        console.error('Failed to save config:', error);
+                        message.value = 'Failed to save configuration.';
+                        success.value = false;
+                    }
+                };
+
+                const addGuild = () => {
+                    config.value.guilds.allowed.push({
+                        id: '',
+                        name: '',
+                        invite_channel: '',
+                        max_age: null,
+                        min_member_age: null,
+                        locale: null,
+                        allowed_roles: [],
+                    });
+                };
+
+                const removeGuild = (index) => {
+                    config.value.guilds.allowed.splice(index, 1);
+                };
+
+                const addRole = (guildIndex) => {
+                    config.value.guilds.allowed[guildIndex].allowed_roles.push({
+                        id: '',
+                        invite_limit: { count: 1, days: 1 },
+                    });
+                };
+
+                const removeRole = (guildIndex, roleIndex) => {
+                    config.value.guilds.allowed[guildIndex].allowed_roles.splice(roleIndex, 1);
+                };
+
+                return {
+                    loading,
+                    config,
+                    message,
+                    success,
+                    availableLocales,
+                    handleSubmit,
+                    addGuild,
+                    removeGuild,
+                    addRole,
+                    removeRole,
+                };
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ pub const AVAILABLE_LOCALES: [&str; 2] = ["en", "zh-TW"];
 
 #[derive(RustEmbed)]
 #[folder = "src/i18n"]
+#[include = "*.yaml"]
 pub struct I18nAssets;
 
 pub fn get_yaml(locale: &str) -> Option<String> {

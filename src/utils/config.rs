@@ -75,6 +75,12 @@ impl Config {
         Ok(config)
     }
 
+    pub fn save(&self, path: &str) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+        let content = serde_yaml::to_string(self)?;
+        fs::write(path, content)?;
+        Ok(())
+    }
+
     pub fn get_guild_locale(&self, guild_id: &str) -> &str {
         self.guilds
             .allowed

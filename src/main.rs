@@ -7,9 +7,11 @@ mod handlers;
 mod http_server;
 mod i18n;
 mod migrations;
+mod public;
 mod slash_commands;
 mod utils;
 
+use crate::http_server::server::run_server;
 use utils::config::Config;
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -77,7 +79,7 @@ async fn main() -> Result<(), Error> {
     let server_config = config.clone();
     let server_db = db.clone();
     tokio::spawn(async move {
-        http_server::run_server(server_config, server_db).await;
+        run_server(server_config, server_db).await;
     });
 
     let db_clone = db.clone();

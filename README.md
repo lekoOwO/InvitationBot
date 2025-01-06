@@ -72,7 +72,13 @@ database:
 ### Environment Variables
 ```bash
 DATABASE_URL=sqlite:data/bot.db  # SQLite connection string
+CONFIG_PATH=data/config.yaml  # Config file path
 ```
+
+## 🚨 Caution
+
+- The config file is in plain text, so please do not share it with others.
+- The config page is accessible by anyone by default, so please set up a proper authentication method.
 
 ## 🤝 Contributing
 
