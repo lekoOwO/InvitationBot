@@ -236,7 +236,8 @@ async fn send_success_embed(
             "commands.invites.success.footer"
         )));
 
-    ctx.send(CreateReply::default().embed(embed)).await?;
+    ctx.send(CreateReply::default().embed(embed).ephemeral(true))
+        .await?;
     Ok(())
 }
 
