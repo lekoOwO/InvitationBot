@@ -50,6 +50,10 @@ commands:
         title: "❌ 找不到用戶加入日期"
         description: "無法取得用戶加入日期"
         footer: "這可能是 Discord API 錯誤"
+      not_long_enough:
+        title: "❌ 加入時間不足"
+        description: "您必須在伺服器中至少待 {days} 天"
+        footer: "請等待至少 {remaining} 天後再試"
     success:
       title: "👥 邀請資訊"
       user: "用戶"

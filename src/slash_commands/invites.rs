@@ -52,8 +52,12 @@ pub async fn invites(ctx: Context<'_>) -> Result<(), Error> {
     );
 
     if let Some(join_date) = member.joined_at {
-        if Utc::now() - join_date.to_utc() < min_stay_duration {
-            send_error_embed(ctx, locale, "commands.invites.errors.not_long_enough").await?;
+        let join_date_utc = join_date.naive_utc().and_utc();
+        let joined_time = Utc::now() - join_date_utc;
+        if joined_time < min_stay_duration {
+            let params =
+                create_not_long_enough_params(min_stay_duration.num_days(), joined_time.num_days());
+            send_not_long_enough_embed(ctx, locale, params).await?;
             return Ok(());
         }
     } else {
@@ -173,6 +177,30 @@ async fn send_limit_reached_embed(
     Ok(())
 }
 
+async fn send_not_long_enough_embed(
+    ctx: Context<'_>,
+    locale: &str,
+    params: HashMap<&str, String>,
+) -> Result<(), Error> {
+    let embed = CreateEmbed::default()
+        .title(t!(locale, "commands.invites.errors.not_long_enough.title"))
+        .description(t!(
+            locale,
+            "commands.invites.errors.not_long_enough.description",
+            params.clone()
+        ))
+        .color(0xFF3333)
+        .footer(CreateEmbedFooter::new(t!(
+            locale,
+            "commands.invites.errors.not_long_enough.footer",
+            params.clone()
+        )));
+
+    ctx.send(CreateReply::default().embed(embed).ephemeral(true))
+        .await?;
+    Ok(())
+}
+
 async fn send_success_embed(
     ctx: Context<'_>,
     locale: &str,
@@ -221,6 +249,13 @@ fn create_limit_params(role_with_limit: &AllowedRole, used_invites: i64) -> Hash
         "remaining",
         (role_with_limit.invite_limit.count as i64 - used_invites).to_string(),
     );
+    params
+}
+
+fn create_not_long_enough_params<'a>(days: i64, remaining: i64) -> HashMap<&'a str, String> {
+    let mut params = HashMap::new();
+    params.insert("days", days.to_string());
+    params.insert("remaining", remaining.to_string());
     params
 }
 

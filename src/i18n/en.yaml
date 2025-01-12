@@ -29,6 +29,10 @@ commands:
         title: "❌ Join Date Not Found"
         description: "Failed to fetch join date"
         footer: "This is likely a Discord API error"
+      not_long_enough:
+        title: "❌ Not Long Enough"
+        description: "You must be in the server for at least {days} days"
+        footer: "Try again in {remaining} days"
     success:
       title: "🎫 New Invite Created"
       description: "Here's your invite link for **{guild}**"
